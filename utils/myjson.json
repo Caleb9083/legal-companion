@@ -1,0 +1,24 @@
+{
+  "name": "The Constutution of Ghana",
+  "preamble": {
+    "name": "first trial 2",
+    "contents": "plenty test text is filled in here"
+  },
+  "chapters": [
+    {
+      "num": "Number II",
+      "name": "chapt 1",
+      "contents": "Some dummy contents"
+    },
+    {
+      "num": "Number III",
+      "name": "chapt 2",
+      "contents": "Some dummy contents"
+    }
+  ],
+  "amendments": {
+    "name": "First amend",
+    "contents": "Some ammendments contents"
+  },
+  "imageCover": "some image.jpg"
+}

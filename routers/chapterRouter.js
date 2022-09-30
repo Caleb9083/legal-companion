@@ -20,7 +20,7 @@ router
                     { title: { $regex: search, $options: "im" } },
                     { preamble: { $regex: search, $options: "im" } },
                 ],
-                ...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
+                //...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
             })
                 .skip(page * pageSize || 0)
                 .limit(pageSize || 0)
@@ -29,7 +29,7 @@ router
         }
         const chapters = await ConstitutionChapterModel.find({
             constitution: constitutionId,
-            ...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
+            //...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
         })
             .skip(page * pageSize || 0)
             .limit(pageSize || 0)

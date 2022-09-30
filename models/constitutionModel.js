@@ -35,11 +35,6 @@ const ConstitutionChapterSchema = new Schema(
             type: SchemaTypes.String, // The legislative branch
             required: true,
         },
-        isAmmendment: {
-            type: SchemaTypes.Boolean,
-            required: true,
-            default: false,
-        },
     },
     {
         timestamps: true,

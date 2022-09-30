@@ -13,8 +13,7 @@ app.use(express.json());
 
 //Routes
 app.use("/api/v1/instruments", instrumentRouter);
-app.use("/api/v2/constitutions", constitutionRouter, chapterRouter)
-// app.use("/api/v2/constitutions", chapterRouter)
-// app.use("/api/v2/constitutions/:constitutionId/chapters/:chapterId/sections", sectionRouter)
+app.use("/api/v2/constitutions", constitutionRouter, chapterRouter, sectionRouter)
+
 
 module.exports = app;

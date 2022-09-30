@@ -7,7 +7,7 @@ const {
 const router = express.Router();
 
 router
-    .route("/")
+    .route("/:constitutionId/chapters/:chapterId/sections")
     .get(async (req, res) => {
         const { search, page, pageSize } = req.query;
         const { constitutionId, chapterId } = req.params;
@@ -50,7 +50,7 @@ router
     });
 
 router
-    .route("/:sectionId")
+    .route("/:constitutionId/chapters/:chapterId/sections/:sectionId")
     // get single section under constitution
     .get(async (req, res) => {
         const { sectionId, constitutionId, chapterId } = req.params;

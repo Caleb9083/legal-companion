@@ -7,11 +7,13 @@ const {
 const router = express.Router();
 
 router
-    .route("/")
+    .route("/:constitutionId/chapters")
     // get chapters under constitution
     .get(async (req, res) => {
-        const { search, page, pageSize, isAmmendment } = req.query;
+
+        const { search, page, pageSize } = req.query;
         const { constitutionId } = req.params;
+        console.log(req.params)
 
         if (search) {
             const chapters = await ConstitutionChapterModel.find({
@@ -20,20 +22,20 @@ router
                     { title: { $regex: search, $options: "im" } },
                     { preamble: { $regex: search, $options: "im" } },
                 ],
-                //...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
             })
                 .skip(page * pageSize || 0)
                 .limit(pageSize || 0)
                 .lean();
+
             return res.json(chapters).status(200);
         }
         const chapters = await ConstitutionChapterModel.find({
             constitution: constitutionId,
-            //...(_.isBoolean(isAmmendment) ? { isAmmendment } : {}),
         })
             .skip(page * pageSize || 0)
             .limit(pageSize || 0)
             .lean();
+
         return res.json(chapters).status(200);
     })
     // create chapter
@@ -49,7 +51,7 @@ router
     });
 
 router
-    .route("/:chapterId")
+    .route("/:constitutionId/chapters/:chapterId")
     // get single chapter under constitution
     .get(async (req, res) => {
         const { chapterId, constitutionId } = req.params;

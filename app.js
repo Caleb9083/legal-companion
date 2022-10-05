@@ -13,7 +13,6 @@ app.use(express.json());
 app.use(cors())
 
 //Routes
-//app.use("/api/v1/instruments", instrumentRouter);
 app.use("/api/v2/constitutions", constitutionRouter, chapterRouter, sectionRouter)
 
 module.exports = app;

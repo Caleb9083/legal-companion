@@ -22,13 +22,22 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(req.body)
         const user = await UserModel.find({ email: email, password: password })
-        res.status(201).json({
-            status: 'success',
-            data: {
-                user: user
-            }
-        })
+        if (user.length == 1) {
+
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    user: user
+                }
+            })
+        } else {
+            res.status(200).json({
+                status: "fail",
+                message: "User doesn't exit"
+            })
+        }
     } catch (error) {
         res.status(400).json({
             status: 'fail',

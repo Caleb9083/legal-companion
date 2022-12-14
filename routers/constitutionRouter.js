@@ -1,5 +1,4 @@
 const express = require("express");
-const ConstitutionModel = require("../models/constitutionModel");
 const constitutionController = require("../controllers/constitutionController")
 const router = express.Router();
 

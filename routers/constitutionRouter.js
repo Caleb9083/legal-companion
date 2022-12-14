@@ -1,17 +1,18 @@
 const express = require("express");
-const constitutionController = require("../controllers/constitutionController")
-const router = express.Router();
+const constitutionController = require("../controllers/constitutionController");
+const authController = require("../controllers/authController");
 
+const router = express.Router();
 
 router
   .route("/")
   .get(constitutionController.getAllConstitutions)
-  .post(constitutionController.createConstitution);
+  .post(authController.protect, constitutionController.createConstitution);
 
 router
   .route("/:constitutionId")
   .get(constitutionController.getOneConstitution)
-  .put(constitutionController.updateConstitution)
-  .delete(constitutionController.deleteConstitution);
+  .put(authController.protect, constitutionController.updateConstitution)
+  .delete(authController.protect, constitutionController.deleteConstitution);
 
 module.exports = router;

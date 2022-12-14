@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const { promisify } = require("util");
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -139,8 +140,9 @@ exports.restrictTo = (...roles) => {
                     success: "fail",
                     message: "You do not have permission to perform this action"
                 })
-                return next()
+
             }
+            return next()
         } catch (error) {
             res.status(400).json({
                 status: "fail",

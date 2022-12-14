@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, res) => {
 
     //Remove the password from the output
     user.password = undefined;
-    //user.role = undefined;
+    user.role = undefined;
 
     res.status(statusCode).json({
         status: "success",
@@ -45,7 +45,7 @@ exports.signup = async (req, res, next) => {
         createSendToken(newUser, 201, res)
 
     } catch (error) {
-        res.status(400).json({
+        res.status(200).json({
             status: 'fail',
             message: error,
         })
@@ -59,8 +59,8 @@ exports.signin = async (req, res, next) => {
 
         // 1. Check if email and password exists
         if (!email || !password) {
-            res.status(400).json({
-                success: "fail",
+            res.status(200).json({
+                status: "fail",
                 message: "Please provide Email and Password!"
             })
             return next()
@@ -71,8 +71,8 @@ exports.signin = async (req, res, next) => {
         // console.log(user)
 
         if (!user || !(await user.correctPassword(password, user.password))) {
-            res.status(401).json({
-                success: "fail",
+            res.status(200).json({
+                status: "fail",
                 message: "Incorrect Email or Password!"
             })
             return next()
@@ -80,7 +80,7 @@ exports.signin = async (req, res, next) => {
         // 3. If everything is okm send token to client
         createSendToken(user, 200, res)
     } catch (error) {
-        res.status(400).json({
+        res.status(200).json({
             status: 'fail',
             message: error.message,
         })
@@ -100,7 +100,7 @@ exports.protect = async (req, res, next) => {
         }
 
         if (!token) {
-            res.status(401).json({
+            res.status(200).json({
                 status: "fail",
                 message: "You are not logged in! Please login to get access"
             })
@@ -113,7 +113,7 @@ exports.protect = async (req, res, next) => {
         // 3. Check if user still exists
         const currentUser = await User.findById(decoded.id);
         if (!currentUser) {
-            res.status(401).json({
+            res.status(200).json({
                 status: "fail",
                 message: "The User belonging to the user does not exit"
             })
@@ -124,7 +124,7 @@ exports.protect = async (req, res, next) => {
         req.user = currentUser;
         next();
     } catch (error) {
-        res.status(404).json({
+        res.status(200).json({
             status: "fail",
             message: error.message
         })
@@ -136,7 +136,7 @@ exports.restrictTo = (...roles) => {
         // roles is an array ["admin", "user"]
         try {
             if (!roles.includes(req.user.role)) {
-                res.status(403).json({
+                res.status(200).json({
                     success: "fail",
                     message: "You do not have permission to perform this action"
                 })
@@ -144,7 +144,7 @@ exports.restrictTo = (...roles) => {
             }
             return next()
         } catch (error) {
-            res.status(400).json({
+            res.status(200).json({
                 status: "fail",
                 message: error.message
             })

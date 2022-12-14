@@ -1,80 +1,18 @@
 const express = require("express");
-const {
-  ConstitutionModel,
-  ConstitutionChapterModel,
-  ConstitutionSectionModel,
-} = require("../models/constitutionModel");
+const ConstitutionModel = require("../models/constitutionModel");
+const constitutionController = require("../controllers/constitutionController")
 const router = express.Router();
+
 
 router
   .route("/")
-  // get constitutions
-  .get(async (req, res) => {
-    const { search, page, pageSize } = req.query;
-
-    if (search) {
-      const constitutions = await ConstitutionModel.find({
-        $or: [
-          { title: { $regex: search, $options: "im" } },
-          { preamble: { $regex: search, $options: "im" } },
-        ],
-      })
-        .skip(page * pageSize || 0)
-        .limit(pageSize || 0)
-        .lean();
-      return res.json(constitutions).status(200);
-    }
-    const constitutions = await ConstitutionModel.find({})
-      .skip(page * pageSize || 0)
-      .limit(pageSize || 0)
-      .lean();
-    return res.json(constitutions).status(200);
-  })
-  // create constitution
-  .post(async (req, res) => {
-    const newConstitution = new ConstitutionModel({
-      ...req.body,
-    });
-
-    await newConstitution.save();
-    return res.json(newConstitution.toJSON()).status(200);
-  });
+  .get(constitutionController.getAllConstitutions)
+  .post(constitutionController.createConstitution);
 
 router
   .route("/:constitutionId")
-  // get a constitution
-  .get(async (req, res) => {
-    const { constitutionId } = req.params;
-    const constitution = await ConstitutionModel.findById(constitutionId);
-    if (!constitution) {
-      return res.status(404).statusMessage("Constitution Not Found");
-    }
-    return res.json(constitution.toJSON()).status(200);
-  })
-  // update a constition
-  .put(async (req, res) => {
-    const { constitutionId } = req.params;
-    const constitution = await ConstitutionModel.findById(constitutionId);
-    if (!constitution) {
-      return res.status(404).statusMessage("Constitution Not Found");
-    }
-    await constitution.updateOne({
-      $set: {
-        ...req.body,
-      },
-    });
-    return res.json(constitution.toJSON()).status(200);
-  })
-  // delete constitution
-  .delete(async (req, res) => {
-    const { constitutionId } = req.params;
-    const constitution = await ConstitutionModel.findById(constitutionId);
-    if (!constitution) {
-      return res.status(404).statusMessage("Constitution Not Found");
-    }
-    await constitution.deleteOne();
-    return res.json(constitution.toJSON()).status(200);
-  });
-
+  .get(constitutionController.getOneConstitution)
+  .put(constitutionController.updateConstitution)
+  .delete(constitutionController.deleteConstitution);
 
 module.exports = router;

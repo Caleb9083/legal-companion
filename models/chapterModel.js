@@ -26,4 +26,4 @@ const ConstitutionChapterModel = model(
     ConstitutionChapterSchema
 );
 
-model.exports = ConstitutionChapterModel;
+module.exports = ConstitutionChapterModel;

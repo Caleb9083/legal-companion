@@ -27,4 +27,4 @@ const ConstitutionSectionModel = model(
     ConstitutionSectionSchema
 );
 
-model.exports = ConstitutionSectionModel;
+module.exports = ConstitutionSectionModel;

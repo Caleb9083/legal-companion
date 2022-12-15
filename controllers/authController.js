@@ -47,10 +47,7 @@ exports.signup = async (req, res, next) => {
 
     createSendToken(newUser, 201, res);
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      message: error,
-    });
+    return next(new AppError(`A user with this email already exists`));
   }
 };
 

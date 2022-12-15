@@ -130,6 +130,5 @@ dist
 .pnp.*
 
 # special files
-.gitignore
 just-kidding.js-dart
 dev-data/

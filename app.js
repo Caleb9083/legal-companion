@@ -1,5 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
 const instrumentRouter = require("./routers/instrumentRouter");
 const constitutionRouter = require("./routers/constitutionRouter");
 const chapterRouter = require("./routers/chapterRouter");
@@ -11,9 +14,12 @@ const AppError = require("./utils/appError");
 const app = express();
 
 //Middlewares
+app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
+app.use(xss());
+app.use(mongoSanitize());
 
 //Routes
 app.use(
